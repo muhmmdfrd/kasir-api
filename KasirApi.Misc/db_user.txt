@@ -1,0 +1,2 @@
+username: lapulsa@mysql
+password: fl8L3CD3ZmY6I

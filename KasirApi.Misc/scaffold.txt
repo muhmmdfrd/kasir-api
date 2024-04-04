@@ -1,0 +1,3 @@
+dotnet ef dbcontext scaffold "ConnectionString" MySql.EntityFrameworkCore -o Entities -c AppDbContext --context-dir Contexts -f
+
+dotnet ef dbcontext scaffold "ConnectionString" Npgsql.EntityFrameworkCore.PostgreSQL -o Entities -c AppDbContext --context-dir Contexts -f
