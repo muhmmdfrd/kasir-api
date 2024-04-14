@@ -1,5 +1,6 @@
 ﻿using KasirApi.Api.Commons;
 using KasirApi.Core.Helpers;
+using KasirApi.Core.Models.Customs.Requests;
 using KasirApi.Core.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +21,13 @@ public class UsersController : FlozaApiController
     }
 
     [HttpGet]
-    [AllowAnonymous]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
-        return ApiOK("Work!");
+        var result = await _helper.GetAsync();
+        return ApiOK(result);
     }
 
     [HttpPost]
-    [AllowAnonymous]
     public async Task<IActionResult> Create([FromBody] UserAddDto request)
     {
         var result = await _helper.CreateAsync(request, CurrentUser);
@@ -36,9 +36,9 @@ public class UsersController : FlozaApiController
     
     [HttpPost("auth")]
     [AllowAnonymous]
-    public async Task<IActionResult> Auth()
+    public async Task<IActionResult> Auth([FromBody] AuthRequest request)
     {
-        await Task.Run(() => Console.WriteLine("Hello World!"));
-        return ApiOK("hello");
+        var result = await _helper.AuthAsync(request);
+        return ApiOK(result);
     }
 }

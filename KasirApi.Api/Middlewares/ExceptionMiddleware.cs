@@ -2,7 +2,6 @@
 using System.Net;
 using System.Text;
 using KasirApi.Api.Constants;
-using KasirApi.Api.Exceptions;
 using KasirApi.Api.Models;
 
 namespace KasirApi.Api.Middlewares
@@ -34,7 +33,7 @@ namespace KasirApi.Api.Middlewares
         {
             var code = ResponseConstant.INTERNAL_SERVER_ERROR_CODE;
             var message = ResponseConstant.INTERNAL_SERVER_ERROR;
-            var innerMessage = ex.InnerException != null ? ex.GetBaseException()?.Message : string.Empty;
+            var innerMessage = ex.InnerException != null ? ex.GetBaseException().Message : string.Empty;
             var exceptionType = ex.GetType().ToString();
 
             if (environment.IsDevelopment() || environment.IsStaging())
@@ -56,16 +55,10 @@ namespace KasirApi.Api.Middlewares
                 message = unauthorizedException.Message;
                 httpStatus = (int)HttpStatusCode.Unauthorized;
             }
-            else if (ex is UnauthorizedToolsException unauthorizedToolsException)
-            {
-                code = ResponseConstant.UNAUTHORIZED_TOOLS_CODE;
-                message = unauthorizedToolsException.Message;
-                httpStatus = (int)HttpStatusCode.Unauthorized;
-            }
-            else if (ex is DbUpdateException dbUpdateException)
+            else if (ex is DbUpdateException _)
             {
                 code = ResponseConstant.DATABASE_UNIQUE_CODE;
-                message = innerMessage ?? dbUpdateException.Message;
+                message = innerMessage;
             }
             else if (ex is InvalidOperationException invalidOperationException)
             {

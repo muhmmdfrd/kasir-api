@@ -11,7 +11,7 @@
   "profiles": {
     "KasirAPI": {
       "commandName": "Project",
-      "environmentVariables": {
+      "environmentVariables": { 
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:7151;http://localhost:5151",

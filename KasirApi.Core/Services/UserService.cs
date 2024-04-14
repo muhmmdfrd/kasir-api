@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Transactions;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Flozacode.Exceptions;
 using Flozacode.Models.Paginations;
 using Flozacode.Repository;
@@ -38,9 +39,10 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
-    public Task<List<UserViewDto>> GetListAsync()
+    public async Task<List<UserViewDto>> GetListAsync()
     {
-        throw new NotImplementedException();
+        var result = _repo.AsQueryable.ProjectTo<UserViewDto>(_mapper.ConfigurationProvider).ToList();
+        return await Task.FromResult(result);
     }
 
     public Task<UserViewDto> FindAsync(long id)

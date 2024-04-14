@@ -206,7 +206,7 @@ namespace KasirApi.Api.Extensions
             
             services.AddSwaggerGen((c) =>
             {
-                c.OperationFilter<CustomHeaderSwaggerAttribute>();
+                // c.OperationFilter<CustomHeaderSwaggerAttribute>();
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",

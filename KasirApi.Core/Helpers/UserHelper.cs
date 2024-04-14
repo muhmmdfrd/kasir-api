@@ -2,6 +2,7 @@
 using KasirApi.Core.Configs;
 using KasirApi.Core.Interfaces;
 using KasirApi.Core.Models.Common;
+using KasirApi.Core.Models.Customs.Requests;
 using KasirApi.Core.Models.Services;
 using Microsoft.Extensions.Options;
 
@@ -17,6 +18,11 @@ public class UserHelper
         _service = service;
         _jwtConfigs = jwtConfigs.Value;
     }
+    
+    public async Task<List<UserViewDto>> GetAsync()
+    {
+        return await _service.GetListAsync();
+    }
 
     public async Task<int> CreateAsync(UserAddDto value, CurrentUser currentUser)
     {
@@ -27,5 +33,11 @@ public class UserHelper
         value.UpdatedAt = DateTime.UtcNow;
 
         return await _service.CreateAsync(value);
+    }
+
+    public async Task<UserAuthResponse> AuthAsync(AuthRequest request)
+    {
+        request.Password = request.Password.Encrypt(_jwtConfigs.PasswordSecret);
+        return await _service.Auth(request);
     }
 }

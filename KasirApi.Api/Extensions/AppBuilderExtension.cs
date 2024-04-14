@@ -13,7 +13,7 @@ namespace KasirApi.Api.Extensions
 
         public static void RegisterSwagger(this WebApplication app)
         {
-            if (!app.Environment.IsDevelopment()) return;
+            // if (!app.Environment.IsDevelopment()) return;
             app.UseSwagger();
             app.UseSwaggerUI();
         }

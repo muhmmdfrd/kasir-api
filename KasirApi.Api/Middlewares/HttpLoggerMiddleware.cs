@@ -24,7 +24,7 @@ namespace KasirApi.Api.Middlewares
         public async Task InvokeAsync(HttpContext httpContext)
         {
             var correlationID = Guid.NewGuid().ToString().ToUpper();
-            var notAllowedEndpoint = new[] { "/auth", "password-reset", "password", "/tools" };
+            var notAllowedEndpoint = new[] {"/test"};
             var notAllowed = notAllowedEndpoint.Any(q => httpContext.Request.Path.Value?.Contains(q) == true);
 
             await LogRequest(httpContext, correlationID, notAllowed);
