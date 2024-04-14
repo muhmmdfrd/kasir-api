@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KasirApi.Api.Controllers.v1;
 
 [ApiVersion("1.0")]
-[Route("v{v:apiVersion}/[controller]")]
+[Route("v1/[controller]")]
 [ApiController]
 [Authorize]
 public class UsersController : FlozaApiController
