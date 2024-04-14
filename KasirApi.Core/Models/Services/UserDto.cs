@@ -1,4 +1,6 @@
-﻿namespace KasirApi.Core.Models.Services;
+﻿using System.Text.Json.Serialization;
+
+namespace KasirApi.Core.Models.Services;
 
 public class UserDto
 {
@@ -16,10 +18,15 @@ public class UserViewDto : UserDto
 public class UserAddDto : UserDto
 {
     public string Password { get; set; } = null!;
-    public int DataStatusId { get; set; }
+    [JsonIgnore]
+    public int DataStatusId { get; set; } = 1;
+    [JsonIgnore]
     public int CreatedBy { get; set; }
+    [JsonIgnore]
     public DateTime CreatedAt { get; set; }
+    [JsonIgnore]
     public int UpdatedBy { get; set; }
+    [JsonIgnore]
     public DateTime UpdatedAt { get; set; }
 }
 
@@ -28,7 +35,9 @@ public class UserUpdDto : UserDto
     public string Password { get; set; } = null!;
     public int DataStatusId { get; set; }
     public int Id { get; set; }
+    [JsonIgnore]
     public int UpdatedBy { get; set; }
+    [JsonIgnore]
     public DateTime UpdatedAt { get; set; }
 }
 
