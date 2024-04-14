@@ -197,16 +197,8 @@ namespace KasirApi.Api.Extensions
 
         public static void AddSwagger(this IServiceCollection services)
         {
-            services.AddApiVersioning(config =>
+            services.AddSwaggerGen(c =>
             {
-                config.DefaultApiVersion = new ApiVersion(1, 0);
-                config.AssumeDefaultVersionWhenUnspecified = true;
-                config.ReportApiVersions = true;
-            });
-            
-            services.AddSwaggerGen((c) =>
-            {
-                // c.OperationFilter<CustomHeaderSwaggerAttribute>();
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
