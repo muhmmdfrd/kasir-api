@@ -25,13 +25,13 @@ public class ToolsController : FlozaApiController
     public IActionResult Encrypt([FromBody] TextRequest request)
     {
         var result = request.Text.Encrypt(_jwtConfigs.PasswordSecret);
-        return ApiOK(result);
+        return ApiOK<string>(result);
     }
 
     [HttpPost("decrypt")]
     public IActionResult Decrypt([FromBody] TextRequest request)
     {
         var result = request.Text.Decrypt(_jwtConfigs.PasswordSecret);
-        return ApiOK(result);
+        return ApiOK<string>(result);
     }
 }
