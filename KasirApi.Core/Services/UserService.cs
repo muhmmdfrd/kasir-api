@@ -108,7 +108,7 @@ public class UserService : IUserService
 
         if (exist == null)
         {
-            throw new RecordNotFoundException("User not found.");
+            throw new UnauthorizedAccessException("User not found.");
         }
 
         var token = await GenerateToken(exist);
