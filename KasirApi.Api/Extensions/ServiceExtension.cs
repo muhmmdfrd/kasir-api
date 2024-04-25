@@ -30,11 +30,13 @@ namespace KasirApi.Api.Extensions
         {
             services.AddFlozaRepo();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITransactionService, TransactionService>();
         }
 
         public static void RegisterHelpers(this IServiceCollection services)
         {
             services.AddScoped<UserHelper>();
+            services.AddScoped<TransactionHelper>();
         }
 
 
