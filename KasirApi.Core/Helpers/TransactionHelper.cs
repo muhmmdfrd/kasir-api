@@ -4,6 +4,7 @@ using Flozacode.Repository;
 using KasirApi.Core.Interfaces;
 using KasirApi.Core.Models.Common;
 using KasirApi.Core.Models.Services;
+using KasirApi.Core.Validators;
 using KasirApi.Repository.Contexts;
 using KasirApi.Repository.Entities;
 
@@ -44,7 +45,7 @@ public class TransactionHelper
             
             // TODO: now using repo
             // then using service
-            var products = _productRepo.AsQueryable.ToList();
+            var products = _productRepo.AsQueryable.Where(x => x.Stock > 0).ToList();
             
             foreach (var detail in value.Details)
             {
@@ -55,6 +56,10 @@ public class TransactionHelper
 
                 if (product == null) 
                     throw new RecordNotFoundException("Product not found.");
+
+                var isProductValid = ProductValidator.IsValid(product, detail.Qty);
+                if (!isProductValid)
+                    throw new ApplicationException("Final stock's product is less than zero");
 
                 detail.Price = product.Price;
                 detail.Discount = value.MemberId == null ? 0 : (int)(detail.Price * 0.4);
