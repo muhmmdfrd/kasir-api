@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Text;
+using Flozacode.Exceptions;
 using KasirApi.Api.Constants;
 using KasirApi.Api.Models;
 
@@ -67,6 +68,10 @@ namespace KasirApi.Api.Middlewares
                     code = ResponseConstant.DATABASE_CONNECTION_CODE;
                     message = ResponseConstant.DATABASE_CONNECTION;
                 }
+            }
+            else if (ex is RecordNotFoundException recordNotFoundException)
+            {
+                code = ResponseConstant.RECORD_NOT_FOUND_CODE;
             }
 
             var response = new ApiResponse<object>().Fail(message, code).ToString();
