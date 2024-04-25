@@ -45,9 +45,16 @@ public class UserService : IUserService
         return await Task.FromResult(result);
     }
 
-    public Task<UserViewDto> FindAsync(long id)
+    public async Task<UserViewDto> FindAsync(long id)
     {
-        throw new NotImplementedException();
+        var result = _repo.AsQueryable.ProjectTo<UserViewDto>(_mapper.ConfigurationProvider).FirstOrDefault(u => u.Id == id);
+
+        if (result == null)
+        {
+            throw new RecordNotFoundException("User not found.");
+        }
+        
+        return await Task.FromResult(result);
     }
 
     public async Task<int> CreateAsync(UserAddDto value)
@@ -61,14 +68,32 @@ public class UserService : IUserService
         }
     }
 
-    public Task<int> UpdateAsync(UserUpdDto value)
+    public async Task<int> UpdateAsync(UserUpdDto value)
     {
-        throw new NotImplementedException();
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        {
+            var entity = _mapper.Map<User>(value);
+            var result = await _repo.UpdateAsync(entity);
+            transaction.Complete();
+            return result;
+        }
     }
 
-    public Task<int> DeleteAsync(long id)
-    {
-        throw new NotImplementedException();
+    public async Task<int> DeleteAsync(long id)
+    { 
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        {
+            var entity = _repo.AsQueryable.FirstOrDefault(u => u.Id == id);
+
+            if (entity == null)
+            {
+                throw new RecordNotFoundException("User not found.");
+            }
+            
+            var result = await _repo.DeleteAsync(entity);
+            transaction.Complete();
+            return result;
+        }
     }
 
     public async Task<UserAuthResponse> Auth(AuthRequest request)
@@ -83,7 +108,7 @@ public class UserService : IUserService
 
         if (exist == null)
         {
-            throw new RecordNotFoundException("User not found.");
+            throw new UnauthorizedAccessException("User not found.");
         }
 
         var token = await GenerateToken(exist);

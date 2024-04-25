@@ -30,11 +30,13 @@ namespace KasirApi.Api.Extensions
         {
             services.AddFlozaRepo();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITransactionService, TransactionService>();
         }
 
         public static void RegisterHelpers(this IServiceCollection services)
         {
             services.AddScoped<UserHelper>();
+            services.AddScoped<TransactionHelper>();
         }
 
 
@@ -197,16 +199,8 @@ namespace KasirApi.Api.Extensions
 
         public static void AddSwagger(this IServiceCollection services)
         {
-            services.AddApiVersioning(config =>
+            services.AddSwaggerGen(c =>
             {
-                config.DefaultApiVersion = new ApiVersion(1, 0);
-                config.AssumeDefaultVersionWhenUnspecified = true;
-                config.ReportApiVersions = true;
-            });
-            
-            services.AddSwaggerGen((c) =>
-            {
-                // c.OperationFilter<CustomHeaderSwaggerAttribute>();
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",

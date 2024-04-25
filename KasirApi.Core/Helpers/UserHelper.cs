@@ -24,6 +24,11 @@ public class UserHelper
         return await _service.GetListAsync();
     }
 
+    public async Task<UserViewDto> FindAsync(long id)
+    {
+        return await _service.FindAsync(id);
+    }
+
     public async Task<int> CreateAsync(UserAddDto value, CurrentUser currentUser)
     {
         value.Password = value.Password.Encrypt(_jwtConfigs.PasswordSecret);
@@ -33,6 +38,19 @@ public class UserHelper
         value.UpdatedAt = DateTime.UtcNow;
 
         return await _service.CreateAsync(value);
+    }
+
+    public async Task<int> UpdateAsync(UserUpdDto value, CurrentUser currentUser)
+    {
+        value.UpdatedBy = currentUser.Id;
+        value.UpdatedAt = DateTime.UtcNow;
+
+        return await _service.UpdateAsync(value);
+    }
+
+    public async Task<int> DeleteAsync(long id)
+    {
+        return await _service.DeleteAsync(id);
     }
 
     public async Task<UserAuthResponse> AuthAsync(AuthRequest request)
