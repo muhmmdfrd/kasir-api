@@ -23,6 +23,6 @@ public class MemberViewDto : MemberDto{}
 
 public class MemberAddDto : MemberDto{}
 
-public class ProductUpdDto : MemberDto{}
+public class MemberUpdDto : MemberDto{}
 
-public class ProductFilter : MemberDto{}
+public class MemberFilter : MemberDto{}
