@@ -13,16 +13,22 @@ namespace KasirApi.Api.Mappers
                 .ReverseMap();
             CreateMap<UserAddDto, User>();
             CreateMap<UserUpdDto, User>();
+            
+            CreateMap<Member, MemberViewDto>()
+                .ReverseMap();
+            CreateMap<MemberAddDto, Member>();
+            CreateMap<MemberUpdDto, Member>()
+                .ForMember(d => d.MemberNumber, conf => conf.Ignore());
 
             CreateMap<Transaction, TransactionViewDto>()
                 .ForMember(
                     d => d.MemberName, 
-                    conf => conf.MapFrom(e => e.MemberId == null ? "" : "Example"))
+                    conf => conf.MapFrom(e => e.MemberId == null ? "" : e.Member!.Name))
                 .ReverseMap();
             CreateMap<Transaction, TransactionViewDetailDto>()
                 .ForMember(
                     d => d.MemberName, 
-                    conf => conf.MapFrom(e => e.MemberId == null ? "" : "Example"))
+                    conf => conf.MapFrom(e => e.MemberId == null ? "" : e.Member!.Name))
                 .ForMember(d => d.Details, conf => conf.MapFrom(e => e.TransactionDetails))
                 .ReverseMap();
             CreateMap<TransactionAddDto, Transaction>()

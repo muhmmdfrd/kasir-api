@@ -6,7 +6,7 @@
     "iisExpress": {
       "applicationUrl": "http://localhost:33635",
       "sslPort": 44350
-    }
+    }   
   },
   "profiles": {
     "KasirAPI": {

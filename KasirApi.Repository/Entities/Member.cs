@@ -5,6 +5,11 @@ namespace KasirApi.Repository.Entities
 {
     public partial class Member
     {
+        public Member()
+        {
+            Transactions = new HashSet<Transaction>();
+        }
+
         public int Id { get; set; }
         public string MemberNumber { get; set; } = null!;
         public string Nik { get; set; } = null!;
@@ -20,5 +25,7 @@ namespace KasirApi.Repository.Entities
         public DateTime CreatedAt { get; set; }
         public int UpdatedBy { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

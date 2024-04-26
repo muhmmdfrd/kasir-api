@@ -18,6 +18,7 @@ namespace KasirApi.Repository.Entities
         public int UpdatedBy { get; set; }
         public DateTime UpdatedAt { get; set; }
 
+        public virtual Member? Member { get; set; }
         public virtual ICollection<TransactionDetail> TransactionDetails { get; set; }
     }
 }

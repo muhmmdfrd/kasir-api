@@ -13,6 +13,8 @@ public class TransactionDetailViewDto : TransactionDetailDto
     public int Id { get; set; }
     public int TransactionId { get; set; }
     public int Price { get; set; }
+    public int? Discount { get; set; }
+    public int SubTotal => Price * Qty;
     public string ProductName { get; set; } = "";
     public int Total { get; set; }
 }

@@ -1,5 +1,8 @@
-﻿using Flozacode.Models;
+﻿using System;
+using System.Collections.Generic;
+using Flozacode.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using KasirApi.Repository.Entities;
 
 namespace KasirApi.Repository.Contexts
@@ -170,6 +173,11 @@ namespace KasirApi.Repository.Contexts
                     .HasColumnName("updated_at");
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.Transactions)
+                    .HasForeignKey(d => d.MemberId)
+                    .HasConstraintName("transaction_member_id_fkey");
             });
 
             modelBuilder.Entity<TransactionDetail>(entity =>

@@ -5,7 +5,7 @@ using KasirApi.Core.Models.Services;
 
 namespace KasirApi.Core.Interfaces;
 
-public interface IProductService : IFlozaPagination<ProductViewDto, ProductAddDto, ProductUpdDto, ProductFilter>
-{
-    
-}
+// public interface IProductService : IFlozaPagination<ProductViewDto, ProductAddDto, ProductUpdDto, ProductFilter>
+// {
+//     
+// }

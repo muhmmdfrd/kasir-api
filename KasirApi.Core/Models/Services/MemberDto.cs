@@ -1,28 +1,56 @@
-namespace KasirApi.Repository.Entities
+using System.Text.Json.Serialization;
 
-    public partial class MemberDto
-    {
-        public int Id { get; set; }
-        public string MemberNumber { get; set; } = null!;
-        public string Nik { get; set; } = null!;
-        public string Name { get; set; } = null!;
-        public DateOnly BirthDate { get; set; }
-        public string BirthPlace { get; set; } = null!;
-        public char? Gender { get; set; }
-        public DateTime JoinDate { get; set; }
-        public string? Address { get; set; }
-        public int DataStatusId { get; set; }
-        public int Point { get; set; }
-        public int CreatedBy { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public int UpdatedBy { get; set; }
-        public DateTime UpdatedAt { get; set; }
-    }
+namespace KasirApi.Core.Models.Services;
 
-public class MemberViewDto : MemberDto{}
+public class MemberDto
+{
+    public string Nik { get; set; } = null!;
+    public string Name { get; set; } = null!;
+    // public DateOnly BirthDate { get; set; }
+    public string BirthPlace { get; set; } = null!;
+    public char? Gender { get; set; }
+    public string? Address { get; set; }
+}
 
-public class MemberAddDto : MemberDto{}
+public class MemberViewDto : MemberDto
+{
+    public int Id { get; set; }
+    public string MemberNumber { get; set; } = null!;
+    public DateTime JoinDate { get; set; }
+    public int Point { get; set; }
+}
 
-public class MemberUpdDto : MemberDto{}
+public class MemberAddDto : MemberDto
+{
+    [JsonIgnore]
+    public string? MemberNumber { get; set; }
+    
+    [JsonIgnore]
+    public int CreatedBy { get; set; }
+    
+    [JsonIgnore]
+    public DateTime CreatedAt { get; set; }
+    
+    [JsonIgnore]
+    public int UpdatedBy { get; set; }
+    
+    [JsonIgnore]
+    public DateTime UpdatedAt { get; set; }
 
-public class MemberFilter : MemberDto{}
+    [JsonIgnore]
+    public int DataStatusId { get; set; } = 1;
+    
+    [JsonIgnore]
+    public DateTime JoinDate { get; set; }
+}
+
+public class MemberUpdDto : MemberDto
+{
+    public int Id { get; set; }
+    
+    [JsonIgnore]
+    public int UpdatedBy { get; set; }
+    
+    [JsonIgnore]
+    public DateTime UpdatedAt { get; set; }
+}
