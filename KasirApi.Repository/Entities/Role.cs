@@ -17,6 +17,7 @@ namespace KasirApi.Repository.Entities
         public DateTime CreatedAt { get; set; }
         public int UpdatedBy { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public string? Name { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
     }

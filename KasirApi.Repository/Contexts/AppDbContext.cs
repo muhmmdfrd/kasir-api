@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Flozacode.Models;
+﻿using Flozacode.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using KasirApi.Repository.Entities;
 
 namespace KasirApi.Repository.Contexts
@@ -24,7 +21,16 @@ namespace KasirApi.Repository.Contexts
         public virtual DbSet<Transaction> Transactions { get; set; } = null!;
         public virtual DbSet<TransactionDetail> TransactionDetails { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
-        
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseNpgsql("Host=ep-raspy-mouse-73643979-pooler.ap-southeast-1.aws.neon.tech;Port=5432;Database=verceldb;Username=default;Password=Cd1asulNGhi8;timeout=180");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Member>(entity =>
@@ -140,6 +146,10 @@ namespace KasirApi.Repository.Contexts
                     .HasColumnName("data_status_id")
                     .HasDefaultValueSql("1");
 
+                entity.Property(e => e.Name)
+                    .HasMaxLength(75)
+                    .HasColumnName("name");
+
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("timestamp without time zone")
                     .HasColumnName("updated_at");
@@ -248,6 +258,10 @@ namespace KasirApi.Repository.Contexts
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)
                     .HasColumnName("email");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(75)
+                    .HasColumnName("name");
 
                 entity.Property(e => e.Nip)
                     .HasMaxLength(50)

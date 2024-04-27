@@ -5,7 +5,6 @@ using Flozacode.Exceptions;
 using Flozacode.Models.Paginations;
 using Flozacode.Repository;
 using KasirApi.Core.Interfaces;
-using KasirApi.Core.Models.Customs.Requests;
 using KasirApi.Core.Models.Filters;
 using KasirApi.Core.Models.Services;
 using KasirApi.Repository.Contexts;
