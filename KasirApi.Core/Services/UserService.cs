@@ -123,6 +123,8 @@ public class UserService : IUserService
         {
             Nip = exist.Nip,
             Token = token,
+            Id = exist.Id,
+            Name = exist.Name ?? "",
         };
     }
     
