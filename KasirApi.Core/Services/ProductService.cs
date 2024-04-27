@@ -17,6 +17,12 @@ public class ProductService : IProductService
     private readonly IMapper _mapper;
     private readonly IFlozaRepo<Product, AppDbContext> _repo;
 
+    public ProductService(IMapper mapper, IFlozaRepo<Product, AppDbContext> repo)
+    {
+        _mapper = mapper;
+        _repo = repo;
+    }
+
     public Task<Pagination<ProductViewDto>> GetPagedAsync(ProductFilter filter)
     {
         throw new NotImplementedException();
@@ -24,7 +30,7 @@ public class ProductService : IProductService
 
     public async Task<List<ProductViewDto>> GetListAsync()
     {
-        var result = _repo.AsQueryable.ProjectTo<ProductViewDto>(_mapper.ConfigurationProvider).ToList();
+        var result = _repo.AsQueryable.ProjectTo<ProductViewDto>(_mapper.ConfigurationProvider).Where(x => x.Stock > 0).ToList();
         return await Task.FromResult(result);
     }
 

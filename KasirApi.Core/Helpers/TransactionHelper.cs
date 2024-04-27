@@ -1,12 +1,9 @@
 ﻿using System.Transactions;
 using Flozacode.Exceptions;
-using Flozacode.Repository;
 using KasirApi.Core.Interfaces;
 using KasirApi.Core.Models.Common;
 using KasirApi.Core.Models.Services;
 using KasirApi.Core.Validators;
-using KasirApi.Repository.Contexts;
-using KasirApi.Repository.Entities;
 
 namespace KasirApi.Core.Helpers;
 
@@ -14,13 +11,13 @@ public class TransactionHelper
 {
     private readonly ITransactionService _service;
     private readonly IMemberService _memberService;
-    private readonly IFlozaRepo<Product, AppDbContext> _productRepo;
+    private readonly IProductService _productService;
 
-    public TransactionHelper(ITransactionService service, IFlozaRepo<Product, AppDbContext> productRepo, IMemberService memberService)
+    public TransactionHelper(ITransactionService service, IMemberService memberService, IProductService productService)
     {
         _service = service;
-        _productRepo = productRepo;
         _memberService = memberService;
+        _productService = productService;
     }
 
     public async Task<List<TransactionViewDto>> GetListAsync()
@@ -44,7 +41,7 @@ public class TransactionHelper
             value.UpdatedBy = currentUser.Id;
             value.UpdatedAt = now;
 
-            InsertDetail(value, currentUser);
+            await InsertDetailAsync(value, currentUser);
             await UpdatePointIfMemberAsync(value, currentUser);
             var result = await _service.CreateAsync(value);
             
@@ -54,17 +51,12 @@ public class TransactionHelper
         }
     }
 
-    private void InsertDetail(TransactionAddDto value, CurrentUser currentUser)
+    private async Task InsertDetailAsync(TransactionAddDto value, CurrentUser currentUser)
     {
-        var now = DateTime.UtcNow;
-        // TODO: now using repo
-        // then using service
-        var products = _productRepo.AsQueryable.Where(x => x.Stock > 0).ToList();
+        var products = await _productService.GetListAsync();
             
         foreach (var detail in value.Details)
         {
-            // TODO: percentage using dummy data first
-            // then using appsettings.json
             var product = products.FirstOrDefault(x => x.Id == detail.ProductId);
 
             if (product == null) 
@@ -73,9 +65,10 @@ public class TransactionHelper
             var isProductValid = ProductValidator.IsValid(product, detail.Qty);
             if (!isProductValid)
                 throw new ApplicationException("Final stock's product is less than zero");
-
+            
+            var now = DateTime.UtcNow;
             detail.Price = product.Price;
-            detail.Discount = value.MemberId == null ? 0 : (int)(detail.Qty * detail.Price * 0.04);
+            detail.Discount = value.MemberId == null ? 0 : (int)(detail.Qty * detail.Price * 0.05);
             detail.Total = (int)(detail.Qty * detail.Price - detail.Discount)!;
             detail.CreatedBy = currentUser.Id;
             detail.CreatedAt = now;

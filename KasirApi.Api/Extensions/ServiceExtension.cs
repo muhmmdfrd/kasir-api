@@ -32,6 +32,7 @@ namespace KasirApi.Api.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IMemberService, MemberService>();
+            services.AddScoped<IProductService, ProductService>();
         }
 
         public static void RegisterHelpers(this IServiceCollection services)
@@ -39,9 +40,9 @@ namespace KasirApi.Api.Extensions
             services.AddScoped<UserHelper>();
             services.AddScoped<TransactionHelper>();
             services.AddScoped<MemberHelper>();
+            services.AddScoped<ProductHelper>();
         }
-
-
+        
         public static void AddDbContext(this IServiceCollection services, IConfiguration config)
         {
             var connectionString = config.GetConnectionString("DefaultConnection");
