@@ -1,4 +1,6 @@
-﻿using Flozacode.Extensions.StringExtension;
+﻿using Flozacode.Extensions.NumberExtension;
+using Flozacode.Extensions.StringExtension;
+using Flozacode.Helpers.StringHelper;
 using KasirApi.Core.Configs;
 using KasirApi.Core.Interfaces;
 using KasirApi.Core.Models.Common;
@@ -32,6 +34,7 @@ public class UserHelper
     public async Task<int> CreateAsync(UserAddDto value, CurrentUser currentUser)
     {
         value.Password = value.Password.Encrypt(_jwtConfigs.PasswordSecret);
+        value.Nip = FlozaString.GenerateRandomNumberString(10);
         value.CreatedBy = currentUser.Id;
         value.CreatedAt = DateTime.UtcNow;
         value.UpdatedBy = currentUser.Id;
