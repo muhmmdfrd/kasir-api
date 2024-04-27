@@ -72,7 +72,13 @@ public class UserService : IUserService
     {
         using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
         {
-            var entity = _mapper.Map<User>(value);
+            var exist = _repo.AsQueryable.FirstOrDefault(x => x.Id == value.Id);
+            if (exist == null)
+                throw new Exception("User not found.");
+
+            value.Password ??= exist.Password;
+            
+            var entity = _mapper.Map(value, exist);
             var result = await _repo.UpdateAsync(entity);
             transaction.Complete();
             return result;

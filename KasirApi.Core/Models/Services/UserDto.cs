@@ -7,12 +7,13 @@ public class UserDto
     public string Nip { get; set; } = null!;
     public string Email { get; set; } = null!;
     public int RoleId { get; set; }
+    public string Name { get; set; } = null!;
 }
 
 public class UserViewDto : UserDto
 {
     public int Id { get; set; }
-    public string RoleName { get; set; }
+    public string RoleName { get; set; } = "";
 }
 
 public class UserAddDto : UserDto
@@ -32,8 +33,7 @@ public class UserAddDto : UserDto
 
 public class UserUpdDto : UserDto
 {
-    public string Password { get; set; } = null!;
-    public int DataStatusId { get; set; }
+    public string? Password { get; set; }
     public int Id { get; set; }
     [JsonIgnore]
     public int UpdatedBy { get; set; }

@@ -9,7 +9,7 @@ namespace KasirApi.Api.Mappers
         public GeneralProfile()
         {
             CreateMap<User, UserViewDto>()
-                .ForMember(d => d.RoleName, conf => conf.MapFrom(e => e.Role.Code))
+                .ForMember(d => d.RoleName, conf => conf.MapFrom(e => e.Role.Name))
                 .ReverseMap();
             CreateMap<UserAddDto, User>();
             CreateMap<UserUpdDto, User>();

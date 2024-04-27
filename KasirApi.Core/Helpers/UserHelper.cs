@@ -45,6 +45,11 @@ public class UserHelper
         value.UpdatedBy = currentUser.Id;
         value.UpdatedAt = DateTime.UtcNow;
 
+        if (value.Password != null)
+        {
+            value.Password = value.Password.Encrypt(_jwtConfigs.PasswordSecret);
+        }
+
         return await _service.UpdateAsync(value);
     }
 
