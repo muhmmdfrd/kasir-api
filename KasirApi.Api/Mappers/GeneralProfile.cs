@@ -19,6 +19,12 @@ namespace KasirApi.Api.Mappers
             CreateMap<MemberAddDto, Member>();
             CreateMap<MemberUpdDto, Member>()
                 .ForMember(d => d.MemberNumber, conf => conf.Ignore());
+            
+            CreateMap<Product, ProductViewDto>()
+                .ReverseMap();
+            CreateMap<ProductAddDto, Product>();
+            CreateMap<ProductUpdDto, Product>()
+                .ForMember(d => d.Code, conf => conf.Ignore());
 
             CreateMap<Transaction, TransactionViewDto>()
                 .ForMember(

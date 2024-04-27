@@ -1,3 +1,4 @@
+using Flozacode.Helpers.StringHelper;
 using KasirApi.Core.Interfaces;
 using KasirApi.Core.Models.Common;
 using KasirApi.Core.Models.Services;
@@ -7,6 +8,11 @@ namespace KasirApi.Core.Helpers;
 public class ProductHelper
 {
     private readonly IProductService _service;
+
+    public ProductHelper(IProductService service)
+    {
+        _service = service;
+    }
 
     public async Task<List<ProductViewDto>> GetAsync()
     {
@@ -20,6 +26,7 @@ public class ProductHelper
 
     public async Task<int> CreateAsync(ProductAddDto value, CurrentUser currentUser)
     {
+        value.Code = FlozaString.GenerateRandomString(10);
         value.CreatedBy = currentUser.Id;
         value.CreatedAt = DateTime.UtcNow;
         value.UpdatedBy = currentUser.Id;
