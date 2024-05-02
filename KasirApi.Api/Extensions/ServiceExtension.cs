@@ -41,6 +41,7 @@ namespace KasirApi.Api.Extensions
             services.AddScoped<TransactionHelper>();
             services.AddScoped<MemberHelper>();
             services.AddScoped<ProductHelper>();
+            services.AddScoped<DashboardHelper>();
         }
         
         public static void AddDbContext(this IServiceCollection services, IConfiguration config)
