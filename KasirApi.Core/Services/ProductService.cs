@@ -61,7 +61,12 @@ public class ProductService : IProductService
     {
         using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
         {
-            var entity = _mapper.Map<Product>(value);
+            var exist = _repo.AsQueryable.FirstOrDefault(x => x.Id == value.Id);
+
+            if (exist == null)
+                throw new RecordNotFoundException("Products not found.");
+            
+            var entity = _mapper.Map(value, exist);
             var result = await _repo.UpdateAsync(entity);
             transaction.Complete();
             return result;
