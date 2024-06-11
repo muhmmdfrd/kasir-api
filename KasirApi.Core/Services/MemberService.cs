@@ -117,8 +117,9 @@ public class MemberService : IMemberService
 
         var result = new MemberValidateResponse
         {
-            Name = member?.Name ?? "",
-            Point = member?.Point ?? 0,
+            Name = member.Name,
+            Point = member.Point,
+            Id = member.Id,
         };
 
         return await Task.FromResult(result);
