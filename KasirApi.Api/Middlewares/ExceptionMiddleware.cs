@@ -72,6 +72,7 @@ namespace KasirApi.Api.Middlewares
             else if (ex is RecordNotFoundException recordNotFoundException)
             {
                 code = ResponseConstant.RECORD_NOT_FOUND_CODE;
+                message = ex.Message;
             }
 
             var response = new ApiResponse<object>().Fail(message, code).ToString();
