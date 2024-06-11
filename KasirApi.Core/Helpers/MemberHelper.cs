@@ -1,3 +1,4 @@
+using Flozacode.Helpers.StringHelper;
 using KasirApi.Core.Interfaces;
 using KasirApi.Core.Models.Common;
 using KasirApi.Core.Models.Customs.Requests;
@@ -29,7 +30,7 @@ public class MemberHelper
     {
         var now = DateTime.UtcNow;
 
-        value.MemberNumber = Guid.NewGuid().ToString();
+        value.MemberNumber = FlozaString.GenerateRandomNumberString();
         value.JoinDate = now;
         value.CreatedBy = currentUser.Id;
         value.CreatedAt = now;
