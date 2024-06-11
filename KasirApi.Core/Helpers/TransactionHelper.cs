@@ -68,7 +68,7 @@ public class TransactionHelper
             
             var now = DateTime.UtcNow;
             detail.Price = product.Price;
-            detail.Discount = value.MemberId == null ? 0 : (int)(detail.Qty * detail.Price * 0.05);
+            detail.Discount = 0;
             detail.Total = (int)(detail.Qty * detail.Price - detail.Discount)!;
             detail.CreatedBy = currentUser.Id;
             detail.CreatedAt = now;
