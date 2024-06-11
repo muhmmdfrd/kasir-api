@@ -1,5 +1,6 @@
 using KasirApi.Api.Commons;
 using KasirApi.Core.Helpers;
+using KasirApi.Core.Models.Customs.Requests;
 using KasirApi.Core.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,13 @@ public class MembersController : FlozaApiController
     {
         var result = await _helper.CreateAsync(request, CurrentUser);
         return result == 0 ? ApiDataInvalid() : ApiOK();
+    }
+
+    [HttpPost("validate")]
+    public async Task<IActionResult> Validate([FromBody] MemberValidateRequest request)
+    {
+        var result = await _helper.ValidateAsync(request);
+        return ApiOK(result);
     }
 
     [HttpPut]

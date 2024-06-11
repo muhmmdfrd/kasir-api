@@ -5,6 +5,7 @@ using Flozacode.Exceptions;
 using Flozacode.Models.Paginations;
 using Flozacode.Repository;
 using KasirApi.Core.Interfaces;
+using KasirApi.Core.Models.Customs.Response;
 using KasirApi.Core.Models.Filters;
 using KasirApi.Core.Models.Services;
 using KasirApi.Repository.Contexts;
@@ -103,5 +104,23 @@ public class MemberService : IMemberService
         var result = await _repo.UpdateAsync(member);
         if (result <= 0)
             throw new ApplicationException("Failed to update point.");
+    }
+
+    public async Task<MemberValidateResponse> ValidateAsync(string memberNumber)
+    {
+        var member = _repo.AsQueryable.FirstOrDefault(x => x.MemberNumber == memberNumber);
+
+        if (member != null)
+        {
+            throw new RecordNotFoundException("Member not found");
+        }
+
+        var result = new MemberValidateResponse
+        {
+            Name = member?.Name ?? "",
+            Point = member?.Point ?? 0,
+        };
+
+        return await Task.FromResult(result);
     }
 }

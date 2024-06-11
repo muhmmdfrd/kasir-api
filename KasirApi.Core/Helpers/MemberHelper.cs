@@ -1,5 +1,7 @@
 using KasirApi.Core.Interfaces;
 using KasirApi.Core.Models.Common;
+using KasirApi.Core.Models.Customs.Requests;
+using KasirApi.Core.Models.Customs.Response;
 using KasirApi.Core.Models.Services;
 
 namespace KasirApi.Core.Helpers;
@@ -35,6 +37,11 @@ public class MemberHelper
         value.UpdatedAt = now;
 
         return await _service.CreateAsync(value);
+    }
+
+    public async Task<MemberValidateResponse> ValidateAsync(MemberValidateRequest request)
+    {
+        return await _service.ValidateAsync(request.MemberNumber);
     }
 
     public async Task<int> UpdateAsync(MemberUpdDto value, CurrentUser currentUser)
