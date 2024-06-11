@@ -110,7 +110,7 @@ public class MemberService : IMemberService
     {
         var member = _repo.AsQueryable.FirstOrDefault(x => x.MemberNumber == memberNumber);
 
-        if (member != null)
+        if (member == null)
         {
             throw new RecordNotFoundException("Member not found");
         }
